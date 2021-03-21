@@ -225,6 +225,26 @@ public class Drivetrain extends SubsystemBase {
     resetRightEncoder();
   }
 
+  public void imSorry(){
+    switch(Constants.visionMoveMode){
+      case 1:
+        //move foward
+        setMotorSpeed(0.3);
+        break;
+      case 2: 
+        //180
+        setLeftMotorSpeed(0.3);
+        setRightMotorSpeed(-0.3);
+        break;
+      case 3 :
+        //turn
+        setRightMotorSpeed(0.3);
+        break;
+      case 4:
+        //end program?!?!?!
+        setMotorSpeed(0);
+    }
+  }
   @Override
   public void periodic() {
     // This method will be called once per scheduler run
