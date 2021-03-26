@@ -28,12 +28,13 @@ import edu.wpi.first.networktables.NetworkTableInstance;
 public final class Constants {
 
     //Auto Constants
-    public static int autoMode = 2; 
-    public static double moveOffInitiationLineRotations = 20; 
+    public static int autoMode = 4; 
+    public static double moveOffInitiationLineRotations = 100; 
+    public static double moveForwardTick = -50;
 
     public static double conveyorBeltForwardSpeedAutoShoot = -0.4;
 
-    //Vision ConstantsS
+    //Vision Constants
     public static boolean valid = false; 
     public static double lastTurretPosition = 0; 
     public static double offset = 40; 
@@ -54,7 +55,7 @@ public final class Constants {
     public static int rightBackMotorPort = 4; 
 
     public static boolean slowMode = false; 
-    public static double slowModeMultipler = 0.5;
+    public static double slowModeMultipler = 0.35;
     /**
      * Determines the number of encoder ticks necessary for drivetrain to turn at certain angle
      * @param angle the angle to turn

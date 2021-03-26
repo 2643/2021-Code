@@ -22,6 +22,6 @@ public class CrossInitiationLine extends SequentialCommandGroup {
   public CrossInitiationLine() {
     // Add your commands in the super() call, e.g.
     // super(new FooCommand(), new BarCommand());
-    super(new MoveForward(-Constants.moveOffInitiationLineRotations));
+    super(new MoveForward(Constants.moveOffInitiationLineRotations));
   }
 }

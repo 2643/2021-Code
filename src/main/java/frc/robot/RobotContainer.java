@@ -124,12 +124,17 @@ public class RobotContainer {
     // An ExampleCommand will run in autonomous
 
     if(Constants.autoMode == 1){
+      System.out.println("Left");
       return (new LeftPowerPortAuto());
     }else if(Constants.autoMode == 2){
       System.out.println("Center");
       return (new CenterPowerPortAuto());
     }else if(Constants.autoMode == 3){
+      System.out.println("Right");
       return (new RightPowerPortAuto());
+    }else if(Constants.autoMode == 4){
+      System.out.println("Moving Forward");
+      return (new CrossInitiationLine());
     }else{
       return (new CrossInitiationLine());
     }

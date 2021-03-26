@@ -29,8 +29,9 @@ public class MoveForward extends CommandBase {
     RobotContainer.drivetrain.resetLeftEncoder();
     RobotContainer.drivetrain.resetRightEncoder(); 
 
-    RobotContainer.drivetrain.setLeftMotorPosition(rotationsForward);
-    RobotContainer.drivetrain.setRightMotorPosition(rotationsForward);
+    //RobotContainer.drivetrain.setLeftMotorPosition(rotationsForward);
+    //RobotContainer.drivetrain.setRightMotorPosition(rotationsForward);
+    RobotContainer.drivetrain.setAllMotorPosition(rotationsForward);
   }
 
   // Called every time the scheduler runs while the command is scheduled.
@@ -55,6 +56,8 @@ public class MoveForward extends CommandBase {
       if((Math.abs(RobotContainer.drivetrain.getRightMotorEncoder()) <= (rotationsForward + RobotContainer.drivetrain.allowedError)) 
       && (Math.abs(RobotContainer.drivetrain.getRightMotorEncoder()) >= (rotationsForward - RobotContainer.drivetrain.allowedError)))
       {
+        System.out.println(RobotContainer.drivetrain.getLeftMotorEncoder());
+        System.out.println(RobotContainer.drivetrain.getRightMotorEncoder());
         return true; 
       }
       else

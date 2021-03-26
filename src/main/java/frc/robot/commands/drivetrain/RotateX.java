@@ -31,7 +31,6 @@ public class RotateX extends CommandBase {
     
     RobotContainer.drivetrain.setRightMotorPosition(-Constants.rotateX(angle));
     RobotContainer.drivetrain.setLeftMotorPosition(Constants.rotateX(angle));
-
   }
 
   // Called every time the scheduler runs while the command is scheduled.
@@ -42,8 +41,8 @@ public class RotateX extends CommandBase {
   // Called once the command ends or is interrupted.
   @Override
   public void end(boolean interrupted) {
-    RobotContainer.drivetrain.setLeftMotorPosition(RobotContainer.drivetrain.getLeftMotorEncoder());
-    RobotContainer.drivetrain.setRightMotorPosition(RobotContainer.drivetrain.getRightMotorEncoder());
+    //RobotContainer.drivetrain.setLeftMotorPosition(RobotContainer.drivetrain.getLeftMotorEncoder());
+    //RobotContainer.drivetrain.setRightMotorPosition(RobotContainer.drivetrain.getRightMotorEncoder());
 
     if(interrupted == true){
       RobotContainer.drivetrain.setLeftMotorSpeed(0);
@@ -54,9 +53,24 @@ public class RotateX extends CommandBase {
   // Returns true when the command should end.
   @Override
   public boolean isFinished() {
-    if((RobotContainer.drivetrain.getLeftMotorEncoder() == Constants.rotateX(angle)) 
-    && (RobotContainer.drivetrain.getRightMotorEncoder() == Constants.rotateX(angle)))
-      return true;
-    return false;
+    if((Math.abs(RobotContainer.drivetrain.getLeftMotorEncoder()) <= (Constants.rotateX(angle) + RobotContainer.drivetrain.allowedError)) 
+    && (Math.abs(RobotContainer.drivetrain.getLeftMotorEncoder()) >= (Constants.rotateX(angle) - RobotContainer.drivetrain.allowedError)))
+    {
+      if((Math.abs(RobotContainer.drivetrain.getRightMotorEncoder()) <= (Constants.rotateX(angle) + RobotContainer.drivetrain.allowedError)) 
+      && (Math.abs(RobotContainer.drivetrain.getRightMotorEncoder()) >= (Constants.rotateX(angle) - RobotContainer.drivetrain.allowedError)))
+      {
+        System.out.println(RobotContainer.drivetrain.getLeftMotorEncoder());
+        System.out.println(RobotContainer.drivetrain.getRightMotorEncoder());
+        return true; 
+      }
+      else
+      {
+        return false;
+      }
+    }
+    else
+    {
+      return false; 
+    }
   }
 }

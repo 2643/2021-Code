@@ -85,7 +85,7 @@ public class Robot extends TimedRobot {
    */
   @Override
   public void disabledPeriodic() {
-    System.out.println("Hood Rotations: " + RobotContainer.hood.getPosition());
+    //System.out.println("Hood Rotations: " + RobotContainer.hood.getPosition());
     // System.out.println("Turret Position: " + RobotContainer.turret.getPosition());
     // System.out.println("Distance: " + RobotContainer.tfmini.getDistance());
     // //RobotContainer.hood.resetEncoder();
@@ -101,7 +101,7 @@ public class Robot extends TimedRobot {
     RobotContainer.conveyorBelt.updateBallsHeld();
     RobotContainer.hood.resetEncoder();
 
-    //Constants.autoMode = autoChooser.getSelected();
+    Constants.autoMode = autoChooser.getSelected();
 
     m_autonomousCommand = m_robotContainer.getAutonomousCommand();
 
@@ -116,7 +116,8 @@ public class Robot extends TimedRobot {
    */
   @Override
   public void autonomousPeriodic() {
-    
+    //System.out.println(RobotContainer.drivetrain.getLeftMotorEncoder());
+    //System.out.println(RobotContainer.drivetrain.getRightMotorEncoder());
   }
 
   @Override
@@ -137,8 +138,8 @@ public class Robot extends TimedRobot {
   @Override
   public void teleopPeriodic() {
     CommandScheduler.getInstance().run();
-    System.out.println("Distance: " + RobotContainer.tfmini.getDistance());
-    System.out.println("Shooter speed:" + RobotContainer.shooter.getShooterSpeed()[1]);
+    //System.out.println("Distance: " + RobotContainer.tfmini.getDistance());
+    //System.out.println("Shooter speed:" + RobotContainer.shooter.getShooterSpeed()[1]);
   }
 
   /**
@@ -148,19 +149,34 @@ public class Robot extends TimedRobot {
   public void testInit() {
     // Cancels all running commands at the start of test mode.
     CommandScheduler.getInstance().cancelAll();
+    //RobotContainer.drivetrain.resetRightEncoder();
+    //new MoveForward(200);
+    //RobotContainer.drivetrain.resetAllEncoder();
+    //RobotContainer.drivetrain.setRightMotorPosition(1000);
+    //RobotContainer.drivetrain.setLeftMotorPosition(1000);
+    RobotContainer.drivetrain.setAllMotorPosition(250);
+
+    //System.out.println(RobotContainer.drivetrain.)
+    
+    
+    
   }
-
-
+  
+  
   /**
    * This function is called periodically during test mode.
    */
   @Override
   public void testPeriodic() {
+    // RobotContainer.drivetrain.setRightMotorPosition(200);
+    // RobotContainer.drivetrain.setLeftMotorPosition(200);
     /**
      * Drivetrain Testing
      */
     //Check if encoders have reset
-    //System.out.println(RobotContainer.drivetrain.getLeftMotorEncoder() + " " + RobotContainer.drivetrain.getRightMotorEncoder());
+    //RobotContainer.drivetrain.setRightMotorSpeed(0.2);
+    
+    System.out.println("Left: " + RobotContainer.drivetrain.getLeftMotorEncoder() + " Right: " + RobotContainer.drivetrain.getRightMotorEncoder());
     //Test MoveForward with the new allowed error -- schedule this in AutonomousInit
     //Test RotateX to make sure it turns in the right direction - schedule this in AutonomousInit
     //Make/test autonomous routine - with/without shooting
