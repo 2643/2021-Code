@@ -13,6 +13,7 @@ import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.CommandScheduler;
+import frc.robot.commands.auto.GalacticSearchAuto;
 import frc.robot.commands.drivetrain.*;
 import frc.robot.commands.turret.*;
 import frc.robot.commands.hood.*;
@@ -154,7 +155,7 @@ public class Robot extends TimedRobot {
     //RobotContainer.drivetrain.resetAllEncoder();
     //RobotContainer.drivetrain.setRightMotorPosition(1000);
     //RobotContainer.drivetrain.setLeftMotorPosition(1000);
-    RobotContainer.drivetrain.setAllMotorPosition(250);
+    //RobotContainer.drivetrain.setAllMotorPosition(250);
 
     //System.out.println(RobotContainer.drivetrain.)
     
@@ -175,6 +176,7 @@ public class Robot extends TimedRobot {
      */
     //Check if encoders have reset
     //RobotContainer.drivetrain.setRightMotorSpeed(0.2);
+    CommandScheduler.getInstance().schedule(new GalacticSearchAuto());
     
     System.out.println("Left: " + RobotContainer.drivetrain.getLeftMotorEncoder() + " Right: " + RobotContainer.drivetrain.getRightMotorEncoder());
     //Test MoveForward with the new allowed error -- schedule this in AutonomousInit

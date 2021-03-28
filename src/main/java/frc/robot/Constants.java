@@ -39,6 +39,7 @@ public final class Constants {
     public static double lastTurretPosition = 0; 
     public static double offset = 40; 
     public static NetworkTable visionTable = NetworkTableInstance.getDefault().getTable("vision-movement");
+    public static NetworkTable gsVisionTable = NetworkTableInstance.getDefault().getTable("gs-vision-table");
 
     //Debug Options
     public static final boolean debugConveyorBelt = false;
