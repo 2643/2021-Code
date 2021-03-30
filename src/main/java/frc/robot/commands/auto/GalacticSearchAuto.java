@@ -10,7 +10,6 @@ import frc.robot.commands.conveyor.IntakeIndex;
 import frc.robot.commands.intake.ForwardIntake;
 import frc.robot.commands.intake.LowerIntake;
 
-import java.lang.Math;
 
 public class GalacticSearchAuto extends CommandBase {
     CommandScheduler schedulerInstance = CommandScheduler.getInstance();
@@ -19,13 +18,13 @@ public class GalacticSearchAuto extends CommandBase {
     private double rightExcValue = 0;
 
     // MAGIC NUMBERS YAYY!
-    private double ECRate = 0.0004; //curr 0.2/500 basically P in PID Error Correcting Rate
-    private double forwardVal = 20; // in rotations
     private double forwardSpeed = 0.5; // default speed to approach
+    private double ECRate = 0.0004; //curr 0.2/500 basically P in PID Error Correcting Rate during approach
+    private double forwardVal = 20; // in rotations dist to move once "near"
     // private double offsetSpeed = forwardSpeed + 0.2; // magic number
-    private double turnSpeed = 0.1; // turning speed when no ball is found 
+    private double turnSpeed = 0.15; // turning speed when no ball is found 
     
-    private long intakeDelay = 0;
+    private long intakeDelay = 0; // hold counter to allow for intake after not "near" 
 
     public GalacticSearchAuto() {
         addRequirements(RobotContainer.drivetrain);
@@ -76,7 +75,7 @@ public class GalacticSearchAuto extends CommandBase {
             else {
                 RobotContainer.drivetrain.setRightMotorSpeed(forwardSpeed);
             }
-        } else {
+        } else if (intakeDelay <= 0) {
             // turn clockwise(?) slowly for target aquisition
             RobotContainer.drivetrain.setRightMotorSpeed(-turnSpeed);
             RobotContainer.drivetrain.setLeftMotorSpeed(turnSpeed);
