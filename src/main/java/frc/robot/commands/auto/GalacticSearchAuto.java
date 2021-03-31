@@ -40,49 +40,72 @@ public class GalacticSearchAuto extends CommandBase {
     
     @Override
     public void execute() {
-        // errors
-        leftExcValue = Constants.gsVisionTable.getEntry("left_exceeded").getDouble(0);
-        rightExcValue = Constants.gsVisionTable.getEntry("right_exceeded").getDouble(0);
+        if (Constants.ballsHeld < 3) {
+            // errors
+            leftExcValue = Constants.gsVisionTable.getEntry("left_exceeded").getDouble(0);
+            rightExcValue = Constants.gsVisionTable.getEntry("right_exceeded").getDouble(0);
 
-        if (Constants.gsVisionTable.getEntry("near").getBoolean(false)) {
-            intakeDelay = 3 * 50; // seconds * 50 scheduler runs/sec    
-        }
-        // runs when near and for x seconds after as given above.
-        if (Constants.gsVisionTable.getEntry("near").getBoolean(false) || (intakeDelay > 0)) {
-            RobotContainer.drivetrain.setLeftMotorPosition(RobotContainer.drivetrain.getLeftMotorEncoder() + forwardVal + ((rightExcValue - 200) * 0.015)); // 0.015 conv to rot, ~32 deg max
-            RobotContainer.drivetrain.setRightMotorPosition(RobotContainer.drivetrain.getRightMotorEncoder() + forwardVal + ((leftExcValue - 200) * 0.015));
-            schedulerInstance.schedule(new ForwardIntake());
-            schedulerInstance.schedule(new IntakeIndex());
+            if (Constants.gsVisionTable.getEntry("near").getBoolean(false)) {
+                intakeDelay = 3 * 50; // seconds * 50 scheduler runs/sec    
+            }
+            // runs when near and for x seconds after as given above.
+            if (Constants.gsVisionTable.getEntry("near").getBoolean(false) || (intakeDelay > 0)) {
+                RobotContainer.drivetrain.setLeftMotorPosition(RobotContainer.drivetrain.getLeftMotorEncoder() + forwardVal + ((rightExcValue - 200) * 0.015)); // 0.015 conv to rot, ~32 deg max
+                RobotContainer.drivetrain.setRightMotorPosition(RobotContainer.drivetrain.getRightMotorEncoder() + forwardVal + ((leftExcValue - 200) * 0.015));
+                schedulerInstance.schedule(new ForwardIntake());
+                schedulerInstance.schedule(new IntakeIndex());
 
-            intakeDelay--;
+                intakeDelay--;
+            }
+            else {
+                schedulerInstance.schedule(new IndexBeforeIntake());
+                RobotContainer.intake.setSpeed(0);
+            }
+            
+            if (Constants.gsVisionTable.getEntry("has_target").getBoolean(false)) {
+                if (rightExcValue > 0) {
+                    RobotContainer.drivetrain.setLeftMotorSpeed(forwardSpeed + (ECRate * rightExcValue));
+                }
+                else {
+                    RobotContainer.drivetrain.setLeftMotorSpeed(forwardSpeed);
+                }
+
+                if (leftExcValue > 0) {
+                    RobotContainer.drivetrain.setRightMotorSpeed(forwardSpeed + (ECRate * leftExcValue));
+                }
+                else {
+                    RobotContainer.drivetrain.setRightMotorSpeed(forwardSpeed);
+                }
+            } else if (intakeDelay <= 0) {
+                // turn clockwise(?) slowly for target aquisition
+                RobotContainer.drivetrain.setRightMotorSpeed(-turnSpeed);
+                RobotContainer.drivetrain.setLeftMotorSpeed(turnSpeed);
+            }
         }
         else {
-            schedulerInstance.schedule(new IndexBeforeIntake());
-            RobotContainer.intake.setSpeed(0);
-        }
-        
-        if (Constants.gsVisionTable.getEntry("has_target").getBoolean(false)) {
-            if (rightExcValue > 0) {
-                RobotContainer.drivetrain.setLeftMotorSpeed(forwardSpeed + (ECRate * rightExcValue));
-            }
-            else {
-                RobotContainer.drivetrain.setLeftMotorSpeed(forwardSpeed);
+            if (Constants.gsMarkerVisionTable.getEntry("has_target").getBoolean(false)) {
+                RobotContainer.drivetrain.setRightMotorSpeed(-turnSpeed);
+                RobotContainer.drivetrain.setLeftMotorSpeed(turnSpeed);
             }
 
-            if (leftExcValue > 0) {
-                RobotContainer.drivetrain.setRightMotorSpeed(forwardSpeed + (ECRate * leftExcValue));
-            }
             else {
-                RobotContainer.drivetrain.setRightMotorSpeed(forwardSpeed);
-            }
-        } else if (intakeDelay <= 0) {
-            // turn clockwise(?) slowly for target aquisition
-            RobotContainer.drivetrain.setRightMotorSpeed(-turnSpeed);
-            RobotContainer.drivetrain.setLeftMotorSpeed(turnSpeed);
-        }
+                leftExcValue = Constants.gsMarkerVisionTable.getEntry("left_exceeded").getDouble(0);
+                rightExcValue = Constants.gsMarkerVisionTable.getEntry("right_exceeded").getDouble(0);
 
-        if (Constants.ballsHeld >= 3) {
-            // TODO: implement seek for marker
+                if (rightExcValue > 0) {
+                    RobotContainer.drivetrain.setLeftMotorSpeed(forwardSpeed + (ECRate * rightExcValue));
+                }
+                else {
+                    RobotContainer.drivetrain.setLeftMotorSpeed(forwardSpeed);
+                }
+
+                if (leftExcValue > 0) {
+                    RobotContainer.drivetrain.setRightMotorSpeed(forwardSpeed + (ECRate * leftExcValue));
+                }
+                else {
+                    RobotContainer.drivetrain.setRightMotorSpeed(forwardSpeed);
+                }
+            }
         }
     }
 

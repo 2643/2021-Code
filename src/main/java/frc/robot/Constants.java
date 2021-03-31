@@ -40,6 +40,7 @@ public final class Constants {
     public static double offset = 40; 
     public static NetworkTable visionTable = NetworkTableInstance.getDefault().getTable("vision-movement");
     public static NetworkTable gsVisionTable = NetworkTableInstance.getDefault().getTable("gs-vision-table");
+    public static NetworkTable gsMarkerVisionTable = NetworkTableInstance.getDefault().getTable("gs-vision-table-marker");
 
     //Debug Options
     public static final boolean debugConveyorBelt = false;
