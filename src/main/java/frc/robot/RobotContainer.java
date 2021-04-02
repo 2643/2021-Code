@@ -53,6 +53,7 @@ public class RobotContainer {
   public static JoystickButton slowToggle = new JoystickButton(driveStick, 1);
   public static JoystickButton controlPanel = new JoystickButton(driveStick, 5);
   public static JoystickButton verticalIntake = new JoystickButton(driveStick, 6);
+  public static JoystickButton TestButton = new JoystickButton(driveStick, 2);
 
   public static Joystick opBoard = new Joystick(1);
   public static JoystickButton forwardConveyor = new JoystickButton(opBoard, 11); 
@@ -111,6 +112,8 @@ public class RobotContainer {
     bothWinchClimb.whileHeld(new WinchUp());
     rightClimb.whileHeld(new WinchRight());
 
+    //TestButton.whenPressed(new RotateRound());
+
     controlPanel.whenPressed(new ConditionalCommand(new ExtendFrictionWheel(), new RetractFrictionWheel(), Constants.frictionWheelToggle));
     verticalIntake.whenPressed(new ConditionalCommand(new LowerIntake(), new RaiseIntake(), Constants.verticalIntakeToggle));
   }
@@ -135,6 +138,9 @@ public class RobotContainer {
     }else if(Constants.autoMode == 4){
       System.out.println("Moving Forward");
       return (new CrossInitiationLine());
+    }else if(Constants.autoMode == 5){
+      System.out.println("Rotate");
+      return (new RotateRound());
     }else{
       return (new CrossInitiationLine());
     }

@@ -7,19 +7,21 @@
 
 package frc.robot.commands.drivetrain;
 
+import edu.wpi.first.wpilibj.RobotController;
 import edu.wpi.first.wpilibj2.command.CommandBase;
 import frc.robot.Constants;
+import frc.robot.Robot;
 import frc.robot.RobotContainer;
 
 
 public class RotateX extends CommandBase {
 
-  private double angle;
+  private int angle;
 
   public RotateX(int a) {
     // Use addRequirements() here to declare subsystem dependencies.
     addRequirements(RobotContainer.drivetrain);
-    angle = a;
+    angle = a; 
   }
 
   // Called when the command is initially scheduled.
@@ -28,9 +30,10 @@ public class RotateX extends CommandBase {
     // Reset the drivetrain encoders
     RobotContainer.drivetrain.resetLeftEncoder();
     RobotContainer.drivetrain.resetRightEncoder();
-    
-    RobotContainer.drivetrain.setRightMotorPosition(-Constants.rotateX(angle));
-    RobotContainer.drivetrain.setLeftMotorPosition(Constants.rotateX(angle));
+    RobotContainer.drivetrain.RotateAngle(angle);
+    System.out.println(Constants.TurnAngle);
+    RobotContainer.drivetrain.setLeftMotorPosition(-Constants.TurnAngle);
+    RobotContainer.drivetrain.setRightMotorPosition(Constants.TurnAngle);
   }
 
   // Called every time the scheduler runs while the command is scheduled.
@@ -53,11 +56,11 @@ public class RotateX extends CommandBase {
   // Returns true when the command should end.
   @Override
   public boolean isFinished() {
-    if((Math.abs(RobotContainer.drivetrain.getLeftMotorEncoder()) <= (Constants.rotateX(angle) + RobotContainer.drivetrain.allowedError)) 
-    && (Math.abs(RobotContainer.drivetrain.getLeftMotorEncoder()) >= (Constants.rotateX(angle) - RobotContainer.drivetrain.allowedError)))
+    if((Math.abs(RobotContainer.drivetrain.getLeftMotorEncoder()) <= (Constants.rotateXCalc(angle) + RobotContainer.drivetrain.allowedError)) 
+    && (Math.abs(RobotContainer.drivetrain.getLeftMotorEncoder()) >= (Constants.rotateXCalc(angle) - RobotContainer.drivetrain.allowedError)))
     {
-      if((Math.abs(RobotContainer.drivetrain.getRightMotorEncoder()) <= (Constants.rotateX(angle) + RobotContainer.drivetrain.allowedError)) 
-      && (Math.abs(RobotContainer.drivetrain.getRightMotorEncoder()) >= (Constants.rotateX(angle) - RobotContainer.drivetrain.allowedError)))
+      if((Math.abs(RobotContainer.drivetrain.getRightMotorEncoder()) <= (Constants.rotateXCalc(angle) + RobotContainer.drivetrain.allowedError)) 
+      && (Math.abs(RobotContainer.drivetrain.getRightMotorEncoder()) >= (Constants.rotateXCalc(angle) - RobotContainer.drivetrain.allowedError)))
       {
         System.out.println(RobotContainer.drivetrain.getLeftMotorEncoder());
         System.out.println(RobotContainer.drivetrain.getRightMotorEncoder());

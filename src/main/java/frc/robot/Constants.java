@@ -28,7 +28,7 @@ import edu.wpi.first.networktables.NetworkTableInstance;
 public final class Constants {
 
     //Auto Constants
-    public static int autoMode = 4; 
+    public static int autoMode = 5; 
     public static double moveOffInitiationLineRotations = 100; 
     public static double moveForwardTick = -50;
 
@@ -61,10 +61,11 @@ public final class Constants {
      * @param angle the angle to turn
      * @return number of encoder ticks for the each side of the drivetrain to turn 
      */
-    public static double rotateX(double angle){
+    public static double rotateXCalc(double angle){
       double encoderTicks = ((13/90)* angle);
       return encoderTicks;
     }
+    public static double TurnAngle = 0;
 
     public static final double allowedError = 0.05;
 

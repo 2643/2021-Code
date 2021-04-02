@@ -34,17 +34,17 @@ public class Drivetrain extends SubsystemBase {
   private final double SmartVelocityFF = 0;
 
   // Sets the max and min output for the motor speed
-  private final double MaxOutput = 0.5;
-  private final double MinOutput = -0.5;
+  private final double MaxOutput = 0.3;
+  private final double MinOutput = -0.3;
 
   // Sets the max acceleration for the motors
-  private final double maxAccel = 3000;
+  private final double maxAccel = 2500;
   private final int SmartMotionID = 0;
   private final int SmartVelocityID = 1;
-  private final int maxVel = 5500;
+  private final int maxVel = 5000;
   private final int minVel = 0;
 
-  public final double allowedError = 0.07;
+  public final double allowedError = 0.1;
 
   /**
    * Creates a new Drivetrain.
@@ -232,6 +232,13 @@ public class Drivetrain extends SubsystemBase {
   public void setAllMotorPosition(double rotations) {
     setRightMotorPosition(rotations);
     setLeftMotorPosition(rotations);
+  }
+  
+  public void RotateAngle(double a)
+  {
+    //double b = (((double)13 / 90) * a);
+    setRightMotorPosition(-a);
+    setLeftMotorPosition(a);
   }
 
   /**

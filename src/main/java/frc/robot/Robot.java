@@ -7,15 +7,24 @@
 
 package frc.robot;
 
+import java.io.IOException;
+import java.nio.file.Path;
+
 import edu.wpi.first.cameraserver.CameraServer;
+import edu.wpi.first.wpilibj.DriverStation;
+import edu.wpi.first.wpilibj.Filesystem;
 import edu.wpi.first.wpilibj.TimedRobot;
 import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
+import edu.wpi.first.wpilibj.trajectory.Trajectory;
+import edu.wpi.first.wpilibj.trajectory.TrajectoryUtil;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.CommandScheduler;
-import frc.robot.commands.drivetrain.*;
-import frc.robot.commands.turret.*;
-import frc.robot.commands.hood.*;
+import frc.robot.commands.auto.RotateRound;
+import frc.robot.commands.drivetrain.RotateX;
+import frc.robot.commands.drivetrain.Tankdrive;
+import frc.robot.commands.hood.HoodPOVControl;
+import frc.robot.commands.turret.TurretPOVControl;
 
 /**
  * The VM is configured to automatically run this class, and to call the functions corresponding to
@@ -28,6 +37,9 @@ public class Robot extends TimedRobot {
 
   private static RobotContainer m_robotContainer;
   SendableChooser<Integer> autoChooser = new SendableChooser<>();
+
+  String trajectoryJSON = "paths/PathOne.wpilib.json";
+Trajectory trajectory = new Trajectory();
 
 
   /**
@@ -48,23 +60,37 @@ public class Robot extends TimedRobot {
     autoChooser.addOption("Left Power Port Auto", 1);
     autoChooser.addOption("Center Power Port Auto", 2);
     autoChooser.addOption("Right Power Port Auto", 3);
+    autoChooser.addOption("Move Forward", 4);
+    autoChooser.addOption("Rotate Round", 5);
 
     SmartDashboard.putData("Autonomous routine", autoChooser);
     CameraServer.getInstance().startAutomaticCapture();
+
+    try {
+      Path trajectoryPath = Filesystem.getDeployDirectory().toPath().resolve(trajectoryJSON);
+      trajectory = TrajectoryUtil.fromPathweaverJson(trajectoryPath);
+   } catch (IOException ex) {
+      DriverStation.reportError("Unable to open trajectory: " + trajectoryJSON, ex.getStackTrace());
+   }
   }
 
   /**
-   * This function is called every robot packet, no matter the mode. Use this for items like
-   * diagnostics that you want ran during disabled, autonomous, teleoperated and test.
+   * This function is called every robot packet, no matter the mode. Use this for
+   * items like diagnostics that you want ran during disabled, autonomous,
+   * teleoperated and test.
    *
-   * <p>This runs after the mode specific periodic functions, but before
-   * LiveWindow and SmartDashboard integrated updating.
+   * <p>
+   * This runs after the mode specific periodic functions, but before LiveWindow
+   * and SmartDashboard integrated updating.
    */
   @Override
   public void robotPeriodic() {
-    // Runs the Scheduler.  This is responsible for polling buttons, adding newly-scheduled
-    // commands, running already-scheduled commands, removing finished or interrupted commands,
-    // and running subsystem periodic() methods.  This must be called from the robot's periodic
+    // Runs the Scheduler. This is responsible for polling buttons, adding
+    // newly-scheduled
+    // commands, running already-scheduled commands, removing finished or
+    // interrupted commands,
+    // and running subsystem periodic() methods. This must be called from the
+    // robot's periodic
     // block in order for anything in the Command-based framework to work.
     CommandScheduler.getInstance().run();
     CommandScheduler.getInstance().setDefaultCommand(RobotContainer.drivetrain, new Tankdrive());
@@ -77,23 +103,25 @@ public class Robot extends TimedRobot {
    */
   @Override
   public void disabledInit() {
-
   }
 
   /**
-   * This function is called periodically each time the robot enters Disabled mode. 
+   * This function is called periodically each time the robot enters Disabled
+   * mode.
    */
   @Override
   public void disabledPeriodic() {
-    //System.out.println("Hood Rotations: " + RobotContainer.hood.getPosition());
-    // System.out.println("Turret Position: " + RobotContainer.turret.getPosition());
+    // System.out.println("Hood Rotations: " + RobotContainer.hood.getPosition());
+    // System.out.println("Turret Position: " +
+    // RobotContainer.turret.getPosition());
     // System.out.println("Distance: " + RobotContainer.tfmini.getDistance());
     // //RobotContainer.hood.resetEncoder();
 
   }
 
   /**
-   * This autonomous runs the autonomous command selected by your {@link RobotContainer} class.
+   * This autonomous runs the autonomous command selected by your
+   * {@link RobotContainer} class.
    */
   @Override
   public void autonomousInit() {
@@ -116,8 +144,8 @@ public class Robot extends TimedRobot {
    */
   @Override
   public void autonomousPeriodic() {
-    //System.out.println(RobotContainer.drivetrain.getLeftMotorEncoder());
-    //System.out.println(RobotContainer.drivetrain.getRightMotorEncoder());
+    // System.out.println(RobotContainer.drivetrain.getLeftMotorEncoder());
+    // System.out.println(RobotContainer.drivetrain.getRightMotorEncoder());
   }
 
   @Override
@@ -138,28 +166,24 @@ public class Robot extends TimedRobot {
   @Override
   public void teleopPeriodic() {
     CommandScheduler.getInstance().run();
-    //System.out.println("Distance: " + RobotContainer.tfmini.getDistance());
-    //System.out.println("Shooter speed:" + RobotContainer.shooter.getShooterSpeed()[1]);
+    // System.out.println("Distance: " + RobotContainer.tfmini.getDistance());
+    // System.out.println("Shooter speed:" +
+    // RobotContainer.shooter.getShooterSpeed()[1]);
   }
 
   /**
-   * This function is called once at the beginning of test mode. 
+   * This function is called once at the beginning of test mode.
    */
   @Override
   public void testInit() {
     // Cancels all running commands at the start of test mode.
     CommandScheduler.getInstance().cancelAll();
-    //RobotContainer.drivetrain.resetRightEncoder();
-    //new MoveForward(200);
-    //RobotContainer.drivetrain.resetAllEncoder();
-    //RobotContainer.drivetrain.setRightMotorPosition(1000);
-    //RobotContainer.drivetrain.setLeftMotorPosition(1000);
-    RobotContainer.drivetrain.setAllMotorPosition(250);
-
-    //System.out.println(RobotContainer.drivetrain.)
-    
-    
-    
+    RobotContainer.drivetrain.resetAllEncoder();
+    RobotContainer.drivetrain.RotateAngle(103);
+    //360 = 51.5
+    //180 = 25.8
+    //90 = 13
+    //RobotContainer.drivetrain.setAllMotorPosition(60);
   }
   
   
@@ -168,8 +192,6 @@ public class Robot extends TimedRobot {
    */
   @Override
   public void testPeriodic() {
-    // RobotContainer.drivetrain.setRightMotorPosition(200);
-    // RobotContainer.drivetrain.setLeftMotorPosition(200);
     /**
      * Drivetrain Testing
      */
