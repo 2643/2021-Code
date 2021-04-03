@@ -13,6 +13,9 @@ import com.revrobotics.CANSparkMaxLowLevel.MotorType;
 
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Constants;
+import frc.robot.RobotContainer;
+import frc.robot.commands.auto.RotateRound;
+import frc.robot.commands.drivetrain.RotateX;
 
 public class Drivetrain extends SubsystemBase {
   private static CANSparkMax leftFrontMotor = new CANSparkMax(Constants.leftFrontMotorPort, MotorType.kBrushless);
@@ -262,6 +265,26 @@ public class Drivetrain extends SubsystemBase {
     resetRightEncoder();
   }
 
+  public void imSorry(){
+    switch((int)Constants.visionTable.getEntry("mode").getNumber(4)){
+      case 1:
+        //move foward
+        setMotorSpeed(0.3);
+        break;
+      case 2: 
+        //180
+        RobotContainer.drivetrain.RotateAngle(25.8);
+        break;
+      case 3 :
+        //turn
+        RobotContainer.drivetrain.RotateAngle(3.7);
+        setRightMotorSpeed(0.3);
+        break;
+      case 4:
+        //end program?!?!?!
+        setMotorSpeed(0);
+    }
+  }
   @Override
   public void periodic() {
     // This method will be called once per scheduler run

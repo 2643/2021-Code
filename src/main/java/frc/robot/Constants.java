@@ -39,6 +39,9 @@ public final class Constants {
     public static double lastTurretPosition = 0; 
     public static double offset = 40; 
     public static NetworkTable visionTable = NetworkTableInstance.getDefault().getTable("vision-movement");
+    
+    //the BAD constants for vision yea
+    public static NetworkTable visionMoveMode = NetworkTableInstance.getDefault().getTable("mode");
 
     //Debug Options
     public static final boolean debugConveyorBelt = false;
