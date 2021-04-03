@@ -176,6 +176,7 @@ public class Robot extends TimedRobot {
      */
     //Check if encoders have reset
     //RobotContainer.drivetrain.setRightMotorSpeed(0.2);
+    CommandScheduler.getInstance().run();
     CommandScheduler.getInstance().schedule(new GalacticSearchAuto());
     
     System.out.println("Left: " + RobotContainer.drivetrain.getLeftMotorEncoder() + " Right: " + RobotContainer.drivetrain.getRightMotorEncoder());
