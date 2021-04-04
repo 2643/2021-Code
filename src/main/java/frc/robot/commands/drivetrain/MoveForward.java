@@ -26,11 +26,7 @@ public class MoveForward extends CommandBase {
   // Called when the command is initially scheduled.
   @Override
   public void initialize() {
-    RobotContainer.drivetrain.resetLeftEncoder();
-    RobotContainer.drivetrain.resetRightEncoder(); 
-
-    //RobotContainer.drivetrain.setLeftMotorPosition(rotationsForward);
-    //RobotContainer.drivetrain.setRightMotorPosition(rotationsForward);
+    RobotContainer.drivetrain.resetAllEncoder();
     RobotContainer.drivetrain.setAllMotorPosition(rotationsForward);
   }
 
