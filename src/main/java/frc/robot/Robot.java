@@ -197,7 +197,7 @@ Trajectory trajectory = new Trajectory();
      */
     //Check if encoders have reset
     //RobotContainer.drivetrain.setRightMotorSpeed(0.2);
-    
+    CommandScheduler.getInstance().schedule(new imSorry())
     System.out.println("Left: " + RobotContainer.drivetrain.getLeftMotorEncoder() + " Right: " + RobotContainer.drivetrain.getRightMotorEncoder());
     //Test MoveForward with the new allowed error -- schedule this in AutonomousInit
     //Test RotateX to make sure it turns in the right direction - schedule this in AutonomousInit
