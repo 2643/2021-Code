@@ -16,9 +16,9 @@ import frc.robot.RobotContainer;
 
 public class RotateX extends CommandBase {
 
-  private int angle;
+  private double angle;
 
-  public RotateX(int a) {
+  public RotateX(double a) {
     // Use addRequirements() here to declare subsystem dependencies.
     addRequirements(RobotContainer.drivetrain);
     angle = a; 
@@ -28,12 +28,7 @@ public class RotateX extends CommandBase {
   @Override
   public void initialize() {
     // Reset the drivetrain encoders
-    RobotContainer.drivetrain.resetLeftEncoder();
-    RobotContainer.drivetrain.resetRightEncoder();
     RobotContainer.drivetrain.RotateAngle(angle);
-    System.out.println(Constants.TurnAngle);
-    RobotContainer.drivetrain.setLeftMotorPosition(-Constants.TurnAngle);
-    RobotContainer.drivetrain.setRightMotorPosition(Constants.TurnAngle);
   }
 
   // Called every time the scheduler runs while the command is scheduled.

@@ -20,7 +20,7 @@ import edu.wpi.first.wpilibj.trajectory.Trajectory;
 import edu.wpi.first.wpilibj.trajectory.TrajectoryUtil;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.CommandScheduler;
-import frc.robot.commands.auto.RotateRound;
+import frc.robot.commands.auto.SlalomPath;
 import frc.robot.commands.drivetrain.RotateX;
 import frc.robot.commands.drivetrain.Tankdrive;
 import frc.robot.commands.hood.HoodPOVControl;
@@ -61,7 +61,7 @@ Trajectory trajectory = new Trajectory();
     autoChooser.addOption("Center Power Port Auto", 2);
     autoChooser.addOption("Right Power Port Auto", 3);
     autoChooser.addOption("Move Forward", 4);
-    autoChooser.addOption("Rotate Round", 5);
+    autoChooser.addOption("Slalom Path", 5);
 
     SmartDashboard.putData("Autonomous routine", autoChooser);
     CameraServer.getInstance().startAutomaticCapture();
@@ -179,11 +179,7 @@ Trajectory trajectory = new Trajectory();
     // Cancels all running commands at the start of test mode.
     CommandScheduler.getInstance().cancelAll();
     RobotContainer.drivetrain.resetAllEncoder();
-    RobotContainer.drivetrain.RotateAngle(103);
-    //360 = 51.5
-    //180 = 25.8
-    //90 = 13
-    //RobotContainer.drivetrain.setAllMotorPosition(60);
+    CommandScheduler.getInstance().schedule(new SlalomPath());  
   }
   
   

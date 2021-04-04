@@ -139,8 +139,8 @@ public class RobotContainer {
       System.out.println("Moving Forward");
       return (new CrossInitiationLine());
     }else if(Constants.autoMode == 5){
-      System.out.println("Rotate");
-      return (new RotateRound());
+      System.out.println("Slalmon Path");
+      return (new SlalomPath());
     }else{
       return (new CrossInitiationLine());
     }

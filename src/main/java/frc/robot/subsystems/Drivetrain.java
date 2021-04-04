@@ -209,6 +209,7 @@ public class Drivetrain extends SubsystemBase {
    * @param rotations
    */
   public void setLeftMotorPosition(double rotations) {
+    resetLeftEncoder();
     leftFrontMotor.getPIDController().setReference(rotations, ControlType.kSmartMotion, SmartMotionID);
     leftBackMotor.getPIDController().setReference(rotations, ControlType.kSmartMotion, SmartMotionID);
     //System.out.println("Left Motor Position: " + rotations);
@@ -221,6 +222,7 @@ public class Drivetrain extends SubsystemBase {
    * @param rotations
    */
   public void setRightMotorPosition(double rotations) {
+    resetRightEncoder();
     rightFrontMotor.getPIDController().setReference(-rotations, ControlType.kSmartMotion, SmartMotionID);
     rightBackMotor.getPIDController().setReference(-rotations, ControlType.kSmartMotion, SmartMotionID);
     //System.out.println("Hello World!");
@@ -237,6 +239,10 @@ public class Drivetrain extends SubsystemBase {
   public void RotateAngle(double a)
   {
     //double b = (((double)13 / 90) * a);
+    //360 = 51.5
+    //180 = 25.8
+    //90 = 13
+    resetAllEncoder();
     setRightMotorPosition(-a);
     setLeftMotorPosition(a);
   }
