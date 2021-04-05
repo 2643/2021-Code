@@ -112,7 +112,7 @@ public class RobotContainer {
     bothWinchClimb.whileHeld(new WinchUp());
     rightClimb.whileHeld(new WinchRight());
 
-    //TestButton.whenPressed(new RotateRound());
+    TestButton.whenPressed(new SlalomPath());
 
     controlPanel.whenPressed(new ConditionalCommand(new ExtendFrictionWheel(), new RetractFrictionWheel(), Constants.frictionWheelToggle));
     verticalIntake.whenPressed(new ConditionalCommand(new LowerIntake(), new RaiseIntake(), Constants.verticalIntakeToggle));

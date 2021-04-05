@@ -67,7 +67,7 @@ public final class Constants {
     }
     public static double TurnAngle = 0;
 
-    public static final double allowedError = 0.05;
+    //public static final double allowedError = 0.15;
 
     //Shooter Constants
     public static int leftShooterMotorPort = 5;

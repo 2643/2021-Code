@@ -8,6 +8,7 @@
 package frc.robot.commands.auto;
 
 import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
+import edu.wpi.first.wpilibj2.command.WaitCommand;
 import frc.robot.Constants;
 import frc.robot.commands.drivetrain.MoveForward;
 import frc.robot.commands.drivetrain.RotateX;
@@ -27,7 +28,28 @@ public class SlalomPath extends SequentialCommandGroup {
     //360 = 51.5
     //180 = 25.8
     //90 = 13
-    //super(new MoveForward(19).andThen(new RotateX(7.5)).andThen(new MoveForward(38)));
-    super(new MoveForward(19));
+    super(
+      new MoveForward(19)
+      .andThen(new RotateX(-13))
+      .andThen(new MoveForward(38))
+      .andThen(new RotateX(13))
+      .andThen(new MoveForward(114))
+      .andThen(new RotateX(13))
+      .andThen(new MoveForward(38))
+      .andThen(new RotateX(-13))
+      .andThen(new MoveForward(38))
+      .andThen(new RotateX(-13))
+      .andThen(new MoveForward(38))
+      .andThen(new RotateX(-13))
+      .andThen(new MoveForward(38))
+      .andThen(new RotateX(-13))
+      .andThen(new MoveForward(38))
+      .andThen(new RotateX(13))
+      .andThen(new MoveForward(114))
+      .andThen(new RotateX(13))
+      .andThen(new MoveForward(38))
+      .andThen(new RotateX(-13))
+      .andThen(new MoveForward(19))
+      );
   }
 }

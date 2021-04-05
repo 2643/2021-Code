@@ -24,7 +24,7 @@ public class Drivetrain extends SubsystemBase {
   // Sets the SmartMotion PID variables
   private final double SmartMotionP = 0.0006;//0.0016;
   private final double SmartMotionI = 0;//0.000002;
-  private final double SmartMotionD = 0.0004;//0.2;
+  private final double SmartMotionD = 0;//0.0004;//0.2;
   private final double SmartMotionFF = 0;//0.000156;
 
   // Sets the SmartVelocity PID variables
@@ -38,13 +38,13 @@ public class Drivetrain extends SubsystemBase {
   private final double MinOutput = -0.3;
 
   // Sets the max acceleration for the motors
-  private final double maxAccel = 2500;
+  private final double maxAccel = 3000;
   private final int SmartMotionID = 0;
   private final int SmartVelocityID = 1;
   private final int maxVel = 5000;
   private final int minVel = 0;
 
-  public final double allowedError = 0.1;
+  public final double allowedError = 0.05;
 
   /**
    * Creates a new Drivetrain.

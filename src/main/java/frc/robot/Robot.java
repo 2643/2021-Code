@@ -103,6 +103,7 @@ Trajectory trajectory = new Trajectory();
    */
   @Override
   public void disabledInit() {
+    RobotContainer.drivetrain.resetAllEncoder();
   }
 
   /**
@@ -169,6 +170,7 @@ Trajectory trajectory = new Trajectory();
     // System.out.println("Distance: " + RobotContainer.tfmini.getDistance());
     // System.out.println("Shooter speed:" +
     // RobotContainer.shooter.getShooterSpeed()[1]);
+    System.out.println("Left: " + RobotContainer.drivetrain.getLeftMotorEncoder() + " Right: " + RobotContainer.drivetrain.getRightMotorEncoder());
   }
 
   /**

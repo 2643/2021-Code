@@ -17,6 +17,7 @@ import frc.robot.RobotContainer;
 public class RotateX extends CommandBase {
 
   private double angle;
+  private double error = RobotContainer.drivetrain.allowedError;
 
   public RotateX(double a) {
     // Use addRequirements() here to declare subsystem dependencies.
@@ -51,14 +52,16 @@ public class RotateX extends CommandBase {
   // Returns true when the command should end.
   @Override
   public boolean isFinished() {
-    if((Math.abs(RobotContainer.drivetrain.getLeftMotorEncoder()) <= (Constants.rotateXCalc(angle) + RobotContainer.drivetrain.allowedError)) 
-    && (Math.abs(RobotContainer.drivetrain.getLeftMotorEncoder()) >= (Constants.rotateXCalc(angle) - RobotContainer.drivetrain.allowedError)))
+    /*
+    if((Math.abs(RobotContainer.drivetrain.getLeftMotorEncoder()) <= (angle + error)) 
+    && (Math.abs(RobotContainer.drivetrain.getLeftMotorEncoder()) >= (angle - error)))
     {
-      if((Math.abs(RobotContainer.drivetrain.getRightMotorEncoder()) <= (Constants.rotateXCalc(angle) + RobotContainer.drivetrain.allowedError)) 
-      && (Math.abs(RobotContainer.drivetrain.getRightMotorEncoder()) >= (Constants.rotateXCalc(angle) - RobotContainer.drivetrain.allowedError)))
+      if((Math.abs(RobotContainer.drivetrain.getRightMotorEncoder()) <= (angle + error)) 
+      && (Math.abs(RobotContainer.drivetrain.getRightMotorEncoder()) >= (angle - error)))
       {
         System.out.println(RobotContainer.drivetrain.getLeftMotorEncoder());
         System.out.println(RobotContainer.drivetrain.getRightMotorEncoder());
+        System.out.println("Finshed");
         return true; 
       }
       else
@@ -69,6 +72,18 @@ public class RotateX extends CommandBase {
     else
     {
       return false; 
+    }
+    */
+    if(RobotContainer.drivetrain.getLeftMotorEncoder() <= (angle + error) && RobotContainer.drivetrain.getLeftMotorEncoder() >= (angle - error)){
+      if(RobotContainer.drivetrain.getRightMotorEncoder() <= (angle + error) && RobotContainer.drivetrain.getRightMotorEncoder() >= (angle - error)){
+        return true;
+      }
+      else{
+        return false;
+      }
+    }
+    else{
+      return false;
     }
   }
 }
