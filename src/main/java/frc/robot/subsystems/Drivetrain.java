@@ -261,32 +261,37 @@ public class Drivetrain extends SubsystemBase {
   }
 
   public void resetAllEncoder() {
+    
     resetLeftEncoder();
     resetRightEncoder();
   }
 
   public void imSorry(){
-    switch((int)Constants.visionTable.getEntry("mode").getNumber(4)){
+    switch((int)Constants.visionMoveMode.getEntry("mode").getDouble(4)){
       case 1:
         //move foward
         setMotorSpeed(0.3);
+        System.out.print("1");
         break;
       case 2: 
         //180
         RobotContainer.drivetrain.RotateAngle(25.8);
+        System.out.print("2");
         break;
       case 3 :
         //turn
-        RobotContainer.drivetrain.RotateAngle(3.7);
-        setRightMotorSpeed(0.3);
+        RobotContainer.drivetrain.RotateAngle(10);
+        System.out.print("3");
         break;
       case 4:
         //end program?!?!?!
+        System.out.print("4");
         setMotorSpeed(0);
+        break;
     }
   }
   @Override
   public void periodic() {
-    // This method will be called once per scheduler run
+    imSorry();
   }
 }
