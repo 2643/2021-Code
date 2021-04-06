@@ -268,6 +268,7 @@ public class Drivetrain extends SubsystemBase {
 
   public void imSorry(){
     int loopback = 0;
+    int turnback = 0;
     switch((int)Constants.visionMoveMode.getEntry("mode").getNumber(4)){
       case 1:
         //move foward
@@ -276,7 +277,9 @@ public class Drivetrain extends SubsystemBase {
         break;
       case 2: 
         //180
-        RobotContainer.drivetrain.RotateAngle(25.8);
+        if(turnback%10 ==0)
+          RobotContainer.drivetrain.RotateAngle(25.8);
+        turnback+=1;
         System.out.print("2");
         break;
       case 3 :
