@@ -18,8 +18,8 @@ public class GalacticSearchAuto extends CommandBase {
     private double rightExcValue = 0;
 
     // MAGIC NUMBERS YAYY!
-    private double forwardSpeed = 0.5; // default speed to approach
-    private double ECRate = 0.0004; //curr 0.2/500 basically P in PID Error Correcting Rate during approach
+    private double forwardSpeed = 0.25; // default speed to approach
+    private double ECRate = 0.004; //0.2/500 basically P in PID Error Correcting Rate during approach
     private double forwardVal = 20; // in rotations dist to move once "near"
     // private double offsetSpeed = forwardSpeed + 0.2; // magic number
     private double turnSpeed = 0.15; // turning speed when no ball is found 
@@ -29,36 +29,45 @@ public class GalacticSearchAuto extends CommandBase {
     public GalacticSearchAuto() {
         addRequirements(RobotContainer.drivetrain);
         // addRequirements(RobotContainer.intake);
-        // addRequirements(RobotContainer.conveyorBelt);
+        addRequirements(RobotContainer.conveyorBelt);
     }
 
     @Override
     public void initialize() {
+        System.out.println("init");
         RobotContainer.drivetrain.resetAllEncoder();
-        schedulerInstance.schedule(new LowerIntake());
     }
     
     @Override
     public void execute() {
-        if (Constants.ballsHeld < 3) {
+        if (Constants.gsBallsHeld < 3) {
             // errors
-            leftExcValue = Constants.gsVisionTable.getEntry("left_exceeded").getDouble(0);
-            rightExcValue = Constants.gsVisionTable.getEntry("right_exceeded").getDouble(0);
+            leftExcValue = Math.abs(Constants.gsVisionTable.getEntry("left_exceeded").getDouble(0));
+            rightExcValue = Math.abs(Constants.gsVisionTable.getEntry("right_exceeded").getDouble(0));
+
+            System.out.println(leftExcValue + "  " + rightExcValue + "  " + Constants.gsVisionTable.getEntry("has_target").getBoolean(false) + Constants.gsVisionTable.getEntry("near").getBoolean(false) + "  " + intakeDelay);
 
             if (Constants.gsVisionTable.getEntry("near").getBoolean(false)) {
-                intakeDelay = 3 * 50; // seconds * 50 scheduler runs/sec    
+                intakeDelay = 2 * 50; // seconds * 50 scheduler runs/sec    
             }
             // runs when near and for x seconds after as given above.
-            if (Constants.gsVisionTable.getEntry("near").getBoolean(false) || (intakeDelay > 0)) {
-                RobotContainer.drivetrain.setLeftMotorPosition(RobotContainer.drivetrain.getLeftMotorEncoder() + forwardVal + ((rightExcValue - 200) * 0.015)); // 0.015 conv to rot, ~32 deg max
-                RobotContainer.drivetrain.setRightMotorPosition(RobotContainer.drivetrain.getRightMotorEncoder() + forwardVal + ((leftExcValue - 200) * 0.015));
+            if (Constants.gsVisionTable.getEntry("near").getBoolean(false) && Constants.gsVisionTable.getEntry("has_target").getBoolean(false) || (intakeDelay > 0)) {
+                RobotContainer.drivetrain.setLeftMotorPosition(RobotContainer.drivetrain.getLeftMotorEncoder() + forwardVal + ((rightExcValue) * 0.015)); // 0.015 conv to rot, ~32 deg max
+                RobotContainer.drivetrain.setRightMotorPosition(RobotContainer.drivetrain.getRightMotorEncoder() + forwardVal + ((leftExcValue) * 0.015));
+                
                 schedulerInstance.schedule(new ForwardIntake());
-                schedulerInstance.schedule(new IntakeIndex());
+                if (Constants.intakingBall) {
+                    RobotContainer.conveyorBelt.setSpeed(Constants.conveyorBeltForwardSpeed);
+                }
+                //schedulerInstance.schedule(new IntakeIndex());
 
                 intakeDelay--;
             }
+            else if (intakeDelay == 0) {
+                Constants.gsBallsHeld += 1;
+            }
             else {
-                schedulerInstance.schedule(new IndexBeforeIntake());
+                // schedulerInstance.schedule(new IndexBeforeIntake());
                 RobotContainer.intake.setSpeed(0);
             }
             

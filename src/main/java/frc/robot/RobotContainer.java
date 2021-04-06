@@ -89,8 +89,9 @@ public class RobotContainer {
    * {@link edu.wpi.first.wpilibj2.command.button.JoystickButton}.
    */
   private void configureButtonBindings() {
-    forwardConveyor.whileHeld(new ForwardConveyor());
-    reverseConveyor.whileHeld(new ReverseConveyor());
+    forwardConveyor.whileHeld(new GalacticSearchAuto());
+    reverseConveyor.whenReleased(new GalacticSearchAuto(), false);
+    // reverseConveyor.whileHeld(new ReverseConveyor());
     manualIntake.whileHeld(new ForwardIntake());
     reverseIntake.whileHeld(new ReverseIntake());
     manualControlPanel.whileHeld(new MoveWheel());

@@ -156,9 +156,10 @@ public class Robot extends TimedRobot {
     //RobotContainer.drivetrain.setRightMotorPosition(1000);
     //RobotContainer.drivetrain.setLeftMotorPosition(1000);
     //RobotContainer.drivetrain.setAllMotorPosition(250);
-
+    
     //System.out.println(RobotContainer.drivetrain.)
     
+    CommandScheduler.getInstance().schedule(new GalacticSearchAuto());
     
     
   }
@@ -177,9 +178,8 @@ public class Robot extends TimedRobot {
     //Check if encoders have reset
     //RobotContainer.drivetrain.setRightMotorSpeed(0.2);
     CommandScheduler.getInstance().run();
-    CommandScheduler.getInstance().schedule(new GalacticSearchAuto());
     
-    System.out.println("Left: " + RobotContainer.drivetrain.getLeftMotorEncoder() + " Right: " + RobotContainer.drivetrain.getRightMotorEncoder());
+    //System.out.println("Left: " + RobotContainer.drivetrain.getLeftMotorEncoder() + " Right: " + RobotContainer.drivetrain.getRightMotorEncoder());
     //Test MoveForward with the new allowed error -- schedule this in AutonomousInit
     //Test RotateX to make sure it turns in the right direction - schedule this in AutonomousInit
     //Make/test autonomous routine - with/without shooting
