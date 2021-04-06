@@ -7,24 +7,9 @@
 
 package frc.robot;
 
-import java.io.IOException;
-import java.nio.file.Path;
-
-import edu.wpi.first.cameraserver.CameraServer;
-import edu.wpi.first.wpilibj.DriverStation;
-import edu.wpi.first.wpilibj.Filesystem;
 import edu.wpi.first.wpilibj.TimedRobot;
-import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
-import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
-import edu.wpi.first.wpilibj.trajectory.Trajectory;
-import edu.wpi.first.wpilibj.trajectory.TrajectoryUtil;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.CommandScheduler;
-import frc.robot.commands.auto.SlalomPath;
-import frc.robot.commands.drivetrain.RotateX;
-import frc.robot.commands.drivetrain.Tankdrive;
-import frc.robot.commands.hood.HoodPOVControl;
-import frc.robot.commands.turret.TurretPOVControl;
 
 /**
  * The VM is configured to automatically run this class, and to call the functions corresponding to
@@ -35,12 +20,7 @@ import frc.robot.commands.turret.TurretPOVControl;
 public class Robot extends TimedRobot {
   private Command m_autonomousCommand;
 
-  private static RobotContainer m_robotContainer;
-  SendableChooser<Integer> autoChooser = new SendableChooser<>();
-
-  String trajectoryJSON = "paths/PathOne.wpilib.json";
-Trajectory trajectory = new Trajectory();
-
+  private RobotContainer m_robotContainer;
 
   /**
    * This function is run when the robot is first started up and should be used for any
@@ -51,51 +31,22 @@ Trajectory trajectory = new Trajectory();
     // Instantiate our RobotContainer.  This will perform all our button bindings, and put our
     // autonomous chooser on the dashboard.
     m_robotContainer = new RobotContainer();
-
-    RobotContainer.hood.resetEncoder();
-    RobotContainer.drivetrain.resetAllEncoder();
-    RobotContainer.conveyorBelt.updateBallsHeld();
-
-    autoChooser.setDefaultOption("Cross Initiation Line", 0);
-    autoChooser.addOption("Left Power Port Auto", 1);
-    autoChooser.addOption("Center Power Port Auto", 2);
-    autoChooser.addOption("Right Power Port Auto", 3);
-    autoChooser.addOption("Move Forward", 4);
-    autoChooser.addOption("Slalom Path", 5);
-
-    SmartDashboard.putData("Autonomous routine", autoChooser);
-    CameraServer.getInstance().startAutomaticCapture();
-
-    try {
-      Path trajectoryPath = Filesystem.getDeployDirectory().toPath().resolve(trajectoryJSON);
-      trajectory = TrajectoryUtil.fromPathweaverJson(trajectoryPath);
-   } catch (IOException ex) {
-      DriverStation.reportError("Unable to open trajectory: " + trajectoryJSON, ex.getStackTrace());
-   }
   }
 
   /**
-   * This function is called every robot packet, no matter the mode. Use this for
-   * items like diagnostics that you want ran during disabled, autonomous,
-   * teleoperated and test.
+   * This function is called every robot packet, no matter the mode. Use this for items like
+   * diagnostics that you want ran during disabled, autonomous, teleoperated and test.
    *
-   * <p>
-   * This runs after the mode specific periodic functions, but before LiveWindow
-   * and SmartDashboard integrated updating.
+   * <p>This runs after the mode specific periodic functions, but before
+   * LiveWindow and SmartDashboard integrated updating.
    */
   @Override
   public void robotPeriodic() {
-    // Runs the Scheduler. This is responsible for polling buttons, adding
-    // newly-scheduled
-    // commands, running already-scheduled commands, removing finished or
-    // interrupted commands,
-    // and running subsystem periodic() methods. This must be called from the
-    // robot's periodic
+    // Runs the Scheduler.  This is responsible for polling buttons, adding newly-scheduled
+    // commands, running already-scheduled commands, removing finished or interrupted commands,
+    // and running subsystem periodic() methods.  This must be called from the robot's periodic
     // block in order for anything in the Command-based framework to work.
     CommandScheduler.getInstance().run();
-    CommandScheduler.getInstance().setDefaultCommand(RobotContainer.drivetrain, new Tankdrive());
-    CommandScheduler.getInstance().setDefaultCommand(RobotContainer.turret, new TurretPOVControl());
-    CommandScheduler.getInstance().setDefaultCommand(RobotContainer.hood, new HoodPOVControl());
   }
 
   /**
@@ -103,35 +54,17 @@ Trajectory trajectory = new Trajectory();
    */
   @Override
   public void disabledInit() {
-    RobotContainer.drivetrain.resetAllEncoder();
   }
 
-  /**
-   * This function is called periodically each time the robot enters Disabled
-   * mode.
-   */
   @Override
   public void disabledPeriodic() {
-    // System.out.println("Hood Rotations: " + RobotContainer.hood.getPosition());
-    // System.out.println("Turret Position: " +
-    // RobotContainer.turret.getPosition());
-    // System.out.println("Distance: " + RobotContainer.tfmini.getDistance());
-    // //RobotContainer.hood.resetEncoder();
-
   }
 
   /**
-   * This autonomous runs the autonomous command selected by your
-   * {@link RobotContainer} class.
+   * This autonomous runs the autonomous command selected by your {@link RobotContainer} class.
    */
   @Override
   public void autonomousInit() {
-    RobotContainer.drivetrain.resetAllEncoder();
-    RobotContainer.conveyorBelt.updateBallsHeld();
-    RobotContainer.hood.resetEncoder();
-
-    Constants.autoMode = autoChooser.getSelected();
-
     m_autonomousCommand = m_robotContainer.getAutonomousCommand();
 
     // schedule the autonomous command (example)
@@ -145,8 +78,6 @@ Trajectory trajectory = new Trajectory();
    */
   @Override
   public void autonomousPeriodic() {
-    // System.out.println(RobotContainer.drivetrain.getLeftMotorEncoder());
-    // System.out.println(RobotContainer.drivetrain.getRightMotorEncoder());
   }
 
   @Override
@@ -158,7 +89,6 @@ Trajectory trajectory = new Trajectory();
     if (m_autonomousCommand != null) {
       m_autonomousCommand.cancel();
     }
-    RobotContainer.conveyorBelt.updateBallsHeld();
   }
 
   /**
@@ -166,40 +96,18 @@ Trajectory trajectory = new Trajectory();
    */
   @Override
   public void teleopPeriodic() {
-    CommandScheduler.getInstance().run();
-    // System.out.println("Distance: " + RobotContainer.tfmini.getDistance());
-    // System.out.println("Shooter speed:" +
-    // RobotContainer.shooter.getShooterSpeed()[1]);
-    System.out.println("Left: " + RobotContainer.drivetrain.getLeftMotorEncoder() + " Right: " + RobotContainer.drivetrain.getRightMotorEncoder());
   }
 
-  /**
-   * This function is called once at the beginning of test mode.
-   */
   @Override
   public void testInit() {
     // Cancels all running commands at the start of test mode.
     CommandScheduler.getInstance().cancelAll();
-    RobotContainer.drivetrain.resetAllEncoder();
-    CommandScheduler.getInstance().schedule(new SlalomPath());  
   }
-  
-  
+
   /**
    * This function is called periodically during test mode.
    */
   @Override
   public void testPeriodic() {
-    /**
-     * Drivetrain Testing
-     */
-    //Check if encoders have reset
-    //RobotContainer.drivetrain.setRightMotorSpeed(0.2);
-    
-    System.out.println("Left: " + RobotContainer.drivetrain.getLeftMotorEncoder() + " Right: " + RobotContainer.drivetrain.getRightMotorEncoder());
-    //Test MoveForward with the new allowed error -- schedule this in AutonomousInit
-    //Test RotateX to make sure it turns in the right direction - schedule this in AutonomousInit
-    //Make/test autonomous routine - with/without shooting
-
   }
 }
