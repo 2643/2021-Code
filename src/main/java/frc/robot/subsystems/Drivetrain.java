@@ -266,7 +266,8 @@ public class Drivetrain extends SubsystemBase {
   }
 
   public void imSorry(){
-    switch((int)Constants.visionTable.getEntry("mode").getNumber(4)){
+    int loopback = 0;
+    switch((int)Constants.visionMoveMode.getEntry("mode").getNumber(4)){
       case 1:
         //move foward
         setMotorSpeed(0.3);
@@ -277,8 +278,9 @@ public class Drivetrain extends SubsystemBase {
         break;
       case 3 :
         //turn
-        RobotContainer.drivetrain.RotateAngle(3.7);
-        setRightMotorSpeed(0.3);
+        if (loopback%5 ==0)
+          RobotContainer.drivetrain.RotateAngle(3.7);
+        loopback +=1;
         break;
       case 4:
         //end program?!?!?!
