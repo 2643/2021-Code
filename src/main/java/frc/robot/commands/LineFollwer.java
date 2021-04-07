@@ -35,38 +35,36 @@ public class LineFollwer extends CommandBase {
 
   // Called every time the scheduler runs while the command is scheduled.
   @Override
-  public void execute() {
-    while (true)
-        {
-            int defaultValue = 0;
-            int cx = (int) Constants.table.getEntry("Idk").getNumber(defaultValue);
+  public void execute() 
+  {
+    int defaultValue = 0;
+    int cx = (int) Constants.table.getEntry("Idk").getNumber(defaultValue);
             
-            if (cx >= 120)
-            {
+    if (cx >= 120)
+    {
                 // System.out.println("Turn Left!");
-                Constants.leftFrontMotor.set(0);
-                Constants.leftBackMotor.set(0);
-                Constants.rightFrontMotor.set(0.3);
-                Constants.rightBackMotor.set(0.3);
-            }
-            else if (cx < 120 && cx > 50)
-            {
-            // System.out.println("On Track")
-                Constants.leftFrontMotor.set(0.3);
-                Constants.leftBackMotor.set(0.3);
-                Constants.rightFrontMotor.set(0.3);
-                Constants.rightBackMotor.set(0.3);
-            }
-            else if (cx <= 50)
-            {
-            // System.out.println("Turn Right");
-                Constants.leftFrontMotor.set(0.3);
-                Constants.leftBackMotor.set(0.3);
-                Constants.rightFrontMotor.set(0);
-                Constants.rightBackMotor.set(0);
-            }
-                //System.out.println("I don't see the line");
-        }
+      Constants.leftFrontMotor.set(0);
+      Constants.leftBackMotor.set(0);
+      Constants.rightFrontMotor.set(0.3);
+      Constants.rightBackMotor.set(0.3);
+    }
+    else if (cx < 120 && cx > 50)
+    {
+    // System.out.println("On Track")
+        Constants.leftFrontMotor.set(0.3);
+        Constants.leftBackMotor.set(0.3);
+        Constants.rightFrontMotor.set(0.3);
+        Constants.rightBackMotor.set(0.3);
+    }
+    else if (cx <= 50)
+    {
+    // System.out.println("Turn Right");
+        Constants.leftFrontMotor.set(0.3);
+        Constants.leftBackMotor.set(0.3);
+        Constants.rightFrontMotor.set(0);
+        Constants.rightBackMotor.set(0);
+    }
+        //System.out.println("I don't see the line");
   }
 
   // Called once the command ends or is interrupted.
