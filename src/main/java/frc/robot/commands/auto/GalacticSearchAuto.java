@@ -5,12 +5,6 @@ import edu.wpi.first.wpilibj2.command.CommandScheduler;
 import frc.robot.Constants;
 import frc.robot.Robot;
 import frc.robot.RobotContainer;
-import frc.robot.commands.conveyor.ForwardConveyor;
-import frc.robot.commands.conveyor.IndexBeforeIntake;
-import frc.robot.commands.conveyor.IntakeIndex;
-import frc.robot.commands.intake.ForwardIntake;
-import frc.robot.commands.intake.LowerIntake;
-
 
 public class GalacticSearchAuto extends CommandBase {
     CommandScheduler schedulerInstance = CommandScheduler.getInstance();
