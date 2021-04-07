@@ -104,12 +104,12 @@ public class RobotContainer {
     autoShoot.whileHeld(new ConditionalCommand(new TurretAlign().andThen(new AutoShoot().raceWith(new WaitCommand(6).andThen(new ShootingIndex()))), new Nothing(), () -> Constants.visionTable.getEntry("valid").getBoolean(false)));
     manualShooting.whileHeld(new ForwardConveyor().alongWith(new Shoot()));
 
-    hookDelivery.whileHeld(new SendHook());
+    hookDelivery.toggleWhenPressed(new SpinUp());
     dropTelescope.whileHeld(new DropHook());
 
-    leftClimb.whileHeld(new WinchLeft());
-    bothWinchClimb.whileHeld(new WinchUp());
-    rightClimb.whileHeld(new WinchRight());
+    leftClimb.whenPressed(new UpOne());
+    bothWinchClimb.whenPressed(new DownOne());
+    rightClimb.whenPressed(new DownHalf());
 
     controlPanel.whenPressed(new ConditionalCommand(new ExtendFrictionWheel(), new RetractFrictionWheel(), Constants.frictionWheelToggle));
     verticalIntake.whenPressed(new ConditionalCommand(new LowerIntake(), new RaiseIntake(), Constants.verticalIntakeToggle));
