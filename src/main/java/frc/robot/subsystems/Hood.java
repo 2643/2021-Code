@@ -90,7 +90,7 @@ public class Hood extends SubsystemBase {
    * @return boolean
    */
   public boolean atBottomLimit(){
-    return !lowerHoodLimit.get();
+    return lowerHoodLimit.get();
   }
 
   /**

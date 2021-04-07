@@ -27,6 +27,10 @@ import edu.wpi.first.networktables.NetworkTableInstance;
  */
 public final class Constants {
 
+    //Jank Constants
+    public static int shooterSpeed = 1300;
+    public static int hoodPosition = 5;
+
     //Auto Constants
     public static int autoMode = 4; 
     public static double moveOffInitiationLineRotations = 100; 
