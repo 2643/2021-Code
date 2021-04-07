@@ -33,7 +33,7 @@ public class HoodPOVControl extends CommandBase {
     }else if(RobotContainer.driveStick.getPOV() == 180 /*&& !RobotContainer.hood.atBottomLimit()*/){
       RobotContainer.hood.moveHoodDown();
     }else{
-      RobotContainer.hood.stopHood();
+      RobotContainer.hood.moveHood(RobotContainer.hood.getPosition());;
     }
   }
 
