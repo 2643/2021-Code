@@ -31,12 +31,13 @@ public class Intake extends SubsystemBase {
   /**
    * Checks if the ball is passing through the intake 
    */
-  public void isBallThere(){
+  public boolean isBallThere(){
     if(intakeIR.get() == false){
       Constants.intakingBall = true;
     }else{
       Constants.intakingBall = false; 
     }
+    return !intakeIR.get();
   }
 
   /**
