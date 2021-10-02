@@ -44,11 +44,14 @@ public class CloseShoot extends CommandBase {
         // double hoodRotation = -15.7 + (5.71*Math.log(XfromTarget));
 
         // Shoot Bruh
+        int shootSpeed = 1400;
+
         RobotContainer.hood.moveHood(10);
-        RobotContainer.shooter.spinMotors(1400);
+        RobotContainer.shooter.spinMotors(shootSpeed);
+        
         System.out.println("" + RobotContainer.shooter.getShooterSpeed()[0] + " " + RobotContainer.shooter.getShooterSpeed()[1]);
 
-        if (RobotContainer.shooter.getShooterSpeed()[1] > 1350 && RobotContainer.shooter.getShooterSpeed()[1] < 1450) {
+        if ((RobotContainer.shooter.getShooterSpeed()[1] > (shootSpeed-50)) && (RobotContainer.shooter.getShooterSpeed()[1] < (shootSpeed+50))) {
             RobotContainer.conveyorBelt.setSpeed(Constants.conveyorBeltForwardSpeedAutoShoot);
         }
     }
