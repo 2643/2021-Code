@@ -119,6 +119,7 @@ public class Robot extends TimedRobot {
   public void autonomousPeriodic() {
     //System.out.println(RobotContainer.drivetrain.getLeftMotorEncoder());
     //System.out.println(RobotContainer.drivetrain.getRightMotorEncoder());
+    RobotContainer.drivetrain.setAllMotorPosition(40);
   }
 
   @Override
@@ -160,6 +161,7 @@ public class Robot extends TimedRobot {
     //System.out.println(RobotContainer.drivetrain.)
     
     CommandScheduler.getInstance().schedule(new GalacticSearchAuto());
+    RobotContainer.hood.resetEncoder();
     
     
   }

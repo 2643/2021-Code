@@ -39,6 +39,7 @@ public class TurretPOVControl extends CommandBase {
     }else{
       RobotContainer.turret.stopTurret();
     }
+    Constants.lastTurretPosition = RobotContainer.turret.getPosition();
   }
 
   // Called once the command ends or is interrupted.

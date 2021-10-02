@@ -70,6 +70,7 @@ public class RobotContainer {
   public static JoystickButton leftClimb = new JoystickButton(opBoard, 13); 
   public static JoystickButton rightClimb = new JoystickButton(opBoard, 16); 
   public static JoystickButton bothWinchClimb = new JoystickButton(opBoard, 14);
+  public static JoystickButton closeShoot = new JoystickButton(opBoard, 1);
 
   //Shooter Testing
   //public static JoystickButton button  = new JoystickButton(driveStick, 1);
@@ -89,9 +90,8 @@ public class RobotContainer {
    * {@link edu.wpi.first.wpilibj2.command.button.JoystickButton}.
    */
   private void configureButtonBindings() {
-    forwardConveyor.whileHeld(new GalacticSearchAuto());
-    reverseConveyor.whenReleased(new GalacticSearchAuto(), false);
-    // reverseConveyor.whileHeld(new ReverseConveyor());
+    forwardConveyor.whileHeld(new ForwardConveyor());
+    reverseConveyor.whileHeld(new ReverseConveyor());
     manualIntake.whileHeld(new ForwardIntake());
     reverseIntake.whileHeld(new ReverseIntake());
     manualControlPanel.whileHeld(new MoveWheel());
@@ -104,6 +104,7 @@ public class RobotContainer {
 
     autoShoot.whileHeld(new ConditionalCommand(new TurretAlign().andThen(new AutoShoot().raceWith(new WaitCommand(6).andThen(new ShootingIndex()))), new Nothing(), () -> Constants.visionTable.getEntry("valid").getBoolean(false)));
     manualShooting.whileHeld(new ForwardConveyor().alongWith(new Shoot()));
+    closeShoot.whileHeld(new CloseShoot());
 
     hookDelivery.whileHeld(new SendHook());
     dropTelescope.whileHeld(new DropHook());
