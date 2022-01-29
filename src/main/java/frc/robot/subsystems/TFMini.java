@@ -42,6 +42,10 @@ public class TFMini extends SubsystemBase {
     returnArray[2] = -1;
     returnArray[3] = "NULL";
 
+    /**
+     * Check that there are enough bytes to update the readout value.
+     * Otherwise, hold off for up to 3 cycles (60ms).
+     */
     if (port.getBytesReceived() < 9) {
       System.out.print("Not enough bytes using previous: " + holdNum + ", Recieved: ");
       // System.out.println(port.getBytesReceived());
@@ -56,10 +60,19 @@ public class TFMini extends SubsystemBase {
       return returnArray;
     }
     holdCount = 3;
+    
 
+    /**
+     * If the buffer somehow has more than 18 bytes, discard excess.
+     */
     if ((port.getBytesReceived()-18) >= 0) {
       port.read(port.getBytesReceived()-18);
     }
+
+    /**
+     * Read the buffer and find start of frame
+     * Then extract the frame into "bytes" array
+     */
 
     byte[] outputFrame = port.read(18);
     for (int index = 0; index < 18; index++) {
@@ -88,11 +101,20 @@ public class TFMini extends SubsystemBase {
     // System.out.println("bytes " + String.join(",",
     // ByteArrayToStringList(bytes)));i
 
+    /**
+     * Sum first 8 bytes for checksum
+     */
     int accumulator = 0;
     for (int index = 0; index < 8; index++) {
       accumulator += bytes[index];
     }
+    /**
+     * Cast accumulator to remove excess data above lower 8 bits.
+     */
     accumulator = (byte) accumulator;
+    /**
+     * Verify checksum
+     */
     if (!(accumulator == bytes[8])) {
       System.out.print(String.format("%02x", accumulator) + " ");
       System.out.println(String.format("%02x", bytes[8]));
@@ -100,14 +122,23 @@ public class TFMini extends SubsystemBase {
       return returnArray;
     }
 
+    /**
+     * Check that there's no erroneous data.
+     */
     if (bytes[3] == (byte) 255 && bytes[2] == (byte) 255) {
       return returnArray;
     }
 
+    /** 
+     * Calculate distance and strength by bitshift and conversions
+     */
     int distance = ((Byte.toUnsignedInt(bytes[3]) << 8) | (Byte.toUnsignedInt(bytes[2])));
     int strength = ((Byte.toUnsignedInt(bytes[5]) << 8) | (Byte.toUnsignedInt(bytes[4])));
     long mode = bytes[6];
     
+    /**
+     * Assemble return array
+     */
     holdNum = distance;
     returnArray[0] = true;
     returnArray[1] = distance;
@@ -117,6 +148,10 @@ public class TFMini extends SubsystemBase {
     return returnArray;
   }
 
+  /**
+   * Tries to take up to five measurements returns if it finds it.
+   * @return distance (cm) else -1
+   */
   public int getDistance() {
     for (int tries = 0; tries < 5; tries++) {
       Object[] measurement = takeMeasurement();
@@ -127,22 +162,39 @@ public class TFMini extends SubsystemBase {
     return -1;
   }
 
+  /**
+   * Sends external trigger command
+   */
   public void setExternalTrigger() {
     port.write(setExtTrigger, 8);
   }
 
+  /**
+   * Sends internal trigger command
+   */
   public void setInternalTrigger() {
     port.write(setInternalTrigger, 8);
   }
 
+  /**
+   * Sends reset command
+   */
   public void reset() {
     port.write(reset, 8);
   }
 
+  /**
+   * Sends trigger command
+   */
   public void trigger() {
     port.write(extTrigger, 8);
   }
 
+  /**
+   * Converts from a hexstring to a byte array
+   * @param s Hexstring to convert
+   * @return byte array from param s
+   */
   private static byte[] hexStringToByteArray(String s) {
     int len = s.length();
     byte[] data = new byte[len / 2];
